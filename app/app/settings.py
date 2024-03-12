@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'utils',
     'users',
+    'payments',
 ]
 
 # Django project settings.py

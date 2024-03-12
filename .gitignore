@@ -140,3 +140,5 @@ venv/
 # customs ignores
 pgadmin/
 Guides.md
+
+/migrations

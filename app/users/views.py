@@ -14,13 +14,7 @@ from rest_framework.authtoken.models import Token
 from rest_framework.response import Response
 
 from .models import User
-from users.serializers import UserSerializer, AuthTokenSerializer, ClientSerializer
-
-
-class AuthTokenView(ObtainAuthToken):
-    """Create a new auth token for user."""
-    serializer_class = AuthTokenSerializer
-    renderer_classes = api_settings.DEFAULT_RENDERER_CLASSES
+from users.serializers import UserSerializer, ClientSerializer
 
 
 class CustomAuthToken(ObtainAuthToken):
@@ -64,6 +58,22 @@ class UserList(APIView):
         return Response(serializer.data)
 
 
+class UserDetail(APIView):
+    """
+    Retrieve a user instance.
+    """
+    def get_object(self, pk):
+        try:
+            return User.objects.get(pk=pk)
+        except User.DoesNotExist:
+            raise Http404
+
+    def get(self, request, pk, format=None):
+        snippet = self.get_object(pk)
+        serializer = UserSerializer(snippet)
+        return Response(serializer.data)
+
+
 class CreateClientView(generics.CreateAPIView):
     """Create a new client."""
     serializer_class = ClientSerializer
@@ -72,7 +82,6 @@ class CreateClientView(generics.CreateAPIView):
 class ClentView(generics.RetrieveUpdateAPIView):
     """Manage the authenticated client."""
     serializer_class = ClientSerializer
-    authentication_classes = [authentication.TokenAuthentication]
     permission_classes = [permissions.IsAuthenticated]
 
     def get_object(self):
@@ -84,7 +93,27 @@ class ClientList(APIView):
     """
     List all clients
     """
+    permission_classes = [permissions.IsAuthenticated]
+
     def get(self, request, format=None):
         users = User.objects.all()
         serializer = ClientSerializer(users, many=True)
+        return Response(serializer.data)
+
+
+class ClientDetail(APIView):
+    """
+    Retrieve a client instance.
+    """
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_object(self, pk):
+        try:
+            return User.objects.get(pk=pk)
+        except User.DoesNotExist:
+            raise Http404
+
+    def get(self, request, pk, format=None):
+        snippet = self.get_object(pk)
+        serializer = ClientSerializer(snippet)
         return Response(serializer.data)

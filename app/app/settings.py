@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-cw$d!ao-!jd!a=_)a^_c*mw9qk7-8a=rj6fthb_tuip+1k2)c6
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["localhost"]
 
 
 # Application definition
@@ -189,6 +189,18 @@ REST_FRAMEWORK = {
     ),
 }
 
+
+REST_FRAMEWORK = {
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+    ),
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
+}
+
+
 SPECTACULAR_SETTINGS = {
     'TITLE': 'Trade APP API Documentation',
     'DESCRIPTION': 'API documentation containing all endpoints for Trade APP. Schemas are not published here.',
@@ -197,10 +209,18 @@ SPECTACULAR_SETTINGS = {
     'COMPONENT_SPLIT_REQUEST': True,
 }
 
+CORS_ALLOW_CREDENTIALS = True
+
 CORS_ORIGIN_WHITELIST = (
-    'http://localhost:8000',
-    'http://127.0.0.1:8000',
-    'http://localhost:8001',
-    'http://127.0.0.1:8001',
-    'http://localhost:5173'
+    'http://localhost:5173',  # for localhost (REACT Default)
+    'http://172.25.96.1:5173',  # for localhost (Developlemt)
+    'http://192.168.128.1:5173',
+    'http://192.168.56.1:5173'
 )
+
+CSRF_TRUSTED_ORIGINS = [
+    'http://localhost:5173',  # for localhost (REACT Default)
+    'http://172.25.96.1:5173',  # for localhost (Developlemt)
+    'http://192.168.128.1:5173',
+    'http://192.168.56.1:5173'
+]

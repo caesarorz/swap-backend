@@ -9,7 +9,7 @@ from django.contrib.auth.models import (
     BaseUserManager,
     PermissionsMixin,
 )
-
+from payments.models import PaymentMethod
 
 USER_STATUS = (
     ('ACTIVE', 'active'),
@@ -51,6 +51,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(max_length=255, unique=True)
     name = models.CharField(max_length=255)
     phone_number = models.CharField(max_length=50, blank=True, null=True)
+    payment_method = models.ManyToManyField(PaymentMethod)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False, blank=True, null=True)
     is_expert = models.BooleanField(default=False, blank=True, null=True)

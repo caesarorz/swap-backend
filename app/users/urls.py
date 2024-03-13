@@ -7,7 +7,7 @@ from rest_framework_simplejwt.views import (
     TokenObtainPairView,
     TokenRefreshView,
 )
-from users.views import (CreateUserView, UserList, UserDetail,
+from users.views import (CreateUserView, UserList, UserDetail, TokenCreateView,
                          CreateClientView, ClientList, ClientDetail)
 
 

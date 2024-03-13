@@ -22,3 +22,4 @@ class PaymentMethodList(APIView):
         users = PaymentMethod.objects.all()
         serializer = PaymentMethodSerializer(users, many=True)
         return Response(serializer.data)
+

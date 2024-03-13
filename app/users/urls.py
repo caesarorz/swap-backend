@@ -14,7 +14,7 @@ from users.views import (CreateUserView, UserList, UserDetail, TokenCreateView,
 app_name = 'users'
 
 urlpatterns = [
-    path('auth/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('auth/token/', TokenCreateView.as_view(), name='token_obtain_pair'),
     path('auth/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('add/', CreateUserView.as_view(), name='add'),
     path('<int:pk>/', UserDetail.as_view(), name='detail'),

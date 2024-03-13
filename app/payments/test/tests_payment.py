@@ -13,7 +13,7 @@ from payments.models import PaymentMethod
 from payments.serializers import PaymentMethodSerializer
 
 LIST_PAYMENTS_URL = reverse('payments:list')
-
+ADD_PAYMENT_USER_URL = reverse('payments:add')
 
 
 def create_payment_method(**params):
@@ -63,5 +63,8 @@ class PaymentMethodsTestWithUser(TestCase):
         serializer = PaymentMethodSerializer(payments, many=True)
         self.assertEqual(res.status_code, status.HTTP_200_OK)
 
+    def test_add_payment_to_client(self):
+        """Test add payment method to client"""
+        create_payment_method(name='Payment 1')
 
 

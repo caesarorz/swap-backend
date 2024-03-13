@@ -1,5 +1,6 @@
 from django.db import models
 
+
 class PaymentMethod(models.Model):
     """Payment methods in the system."""
     name = models.CharField(max_length=100, unique=True)

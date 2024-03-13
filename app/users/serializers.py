@@ -38,13 +38,15 @@ class ClientSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = get_user_model()
-        fields = ['id', 'email', 'payment_method', 'name', 'phone_number', 'is_expert',
+        fields = ['email', 'name', 'password', 'payment_method', 'phone_number', 'is_expert',
                   'is_fraudulent', 'rating', 'status', 'created_at']
 
         extra_kwargs = {'password': {'write_only': True, 'min_length': 8}}
 
     def create(self, validated_data):
         """Create and return a user with encrypted password."""
+        print(validated_data)
+
         return get_user_model().objects.create_user(**validated_data)
 
     def update(self, instance, validated_data):

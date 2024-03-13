@@ -19,7 +19,7 @@ USER_STATUS = (
 class UserManager(BaseUserManager):
     """Manager for users."""
 
-    def create_user(self, email, phone_number, password=None, **extra_fields):
+    def create_user(self, email, password=None, **extra_fields):
         """Create, save and return a new user."""
         if not email:
             raise ValueError('User must have an email address.')
@@ -51,7 +51,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(max_length=255, unique=True)
     name = models.CharField(max_length=255)
     phone_number = models.CharField(max_length=50, blank=True, null=True)
-    payment_method = models.ManyToManyField(PaymentMethod)
+    payment_method = models.ManyToManyField(PaymentMethod, blank=True)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False, blank=True, null=True)
     is_expert = models.BooleanField(default=False, blank=True, null=True)

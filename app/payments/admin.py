@@ -43,3 +43,4 @@ class UserAdmin(BaseUserAdmin):
 
 
 admin.site.register(models.PaymentMethod)
+admin.site.register(models.PaymentMethodUser)

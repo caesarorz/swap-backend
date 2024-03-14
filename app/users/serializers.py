@@ -47,7 +47,7 @@ class ClientSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = get_user_model()
-        fields = ['email', 'name', 'password', 'payment_method', 'phone_number', 'is_expert',
+        fields = ['email', 'name', 'password', 'phone_number', 'is_expert',
                   'is_fraudulent', 'rating', 'status', 'created_at']
 
         extra_kwargs = {'password': {'write_only': True, 'min_length': 8}}
@@ -77,6 +77,6 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
 
         token = super().get_token(user)
         token['is_staff'] = user.is_staff
-        token['payments'] = True if len([p.name for p in  user.payment_method.all()]) > 0 else False
+        # token['payments'] = True if len([p.name for p in  user.payment_method.all()]) > 0 else False
 
         return token

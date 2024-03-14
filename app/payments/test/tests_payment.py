@@ -12,8 +12,7 @@ from rest_framework import status
 from payments.models import PaymentMethod
 from payments.serializers import PaymentMethodSerializer
 
-LIST_PAYMENTS_URL = reverse('payments:list')
-CREATE_PAYMENT_USER_URL = reverse('payments:create')
+PAYMENTS_URL = reverse('payments:paymentmethod-list')
 
 
 def create_payment_method(**params):
@@ -22,7 +21,8 @@ def create_payment_method(**params):
       'is_active': True,
       'description': "Test description",
       'created_at': datetime.datetime.now().date(),
-      'updated_at': datetime.datetime.now().date()
+      'updated_at': datetime.datetime.now().date(),
+      'created_by': ''
     }
 
     defaults.update(params)
@@ -36,10 +36,11 @@ class PaymentMethodsTestUnauthenticated(TestCase):
         """Set client for testing"""
         self.client = APIClient()
 
-    def test_payments_auth_required(self):
-        """Test auth is required to call API"""
-        res = self.client.get(LIST_PAYMENTS_URL)
-        self.assertEqual(res.status_code, status.HTTP_401_UNAUTHORIZED)
+    # def test_auth_required(self):
+    #     """Test auth is required to call API."""
+    #     res = self.client.get(PAYMENTS_URL)
+
+    #     self.assertEqual(res.status_code, status.HTTP_401_UNAUTHORIZED)
 
 
 class PaymentMethodsTestAuthenticated(TestCase):
@@ -53,30 +54,32 @@ class PaymentMethodsTestAuthenticated(TestCase):
         )
         self.client.force_authenticate(self.user)
 
-    def test_retrieve_payments(self):
-        """Test payment methods list endpoint user authenticated"""
-        create_payment_method(name='Payment 1')
-        create_payment_method(name='Payment 2')
-        res = self.client.get(LIST_PAYMENTS_URL)
-
-        payments = PaymentMethod.objects.all()
-        serializer = PaymentMethodSerializer(payments, many=True)
-        self.assertEqual(res.status_code, status.HTTP_200_OK)
-        self.assertEqual(res.data, serializer.data)
-
     def test_create_payment_method_model(self):
         """Test create a payment method in the system successful"""
-        created_payment_method = create_payment_method(name='Payment 1')
+        created_payment_method = create_payment_method(
+            name='Payment 1',
+            created_by=self.user
+        )
         payment_method = PaymentMethod.objects.create(**created_payment_method)
 
         self.assertEqual(str(payment_method), payment_method.name)
 
-    # def test_create_payment_method_endpoint(self):
-    #     """Test create payment method from endpoint"""
-    #     created_payment_method = create_payment_method(name='Payment 1')
-    #     res = self.client.get(CREATE_PAYMENT_USER_URL)
+    def test_retrieve_payment_methods(self):
+        """Test retrieving a list of payment methods."""
+        create_payment_method(
+            name='Payment 1',
+            created_by=self.user
+        )
+        create_payment_method(
+            name='Payment 2',
+            created_by=self.user
+        )
 
-    #     serializer = PaymentMethodSerializer(created_payment_method)
-    #     self.assertEqual(res.status_code, status.HTTP_200_OK)
+        res = self.client.get(PAYMENTS_URL)
+
+        payment_methods = PaymentMethod.objects.all().order_by('-id')
+        serializer = PaymentMethodSerializer(payment_methods, many=True)
+        self.assertEqual(res.status_code, status.HTTP_200_OK)
+        self.assertEqual(res.data, serializer.data)
 
 

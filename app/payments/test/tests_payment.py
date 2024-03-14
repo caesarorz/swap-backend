@@ -13,7 +13,7 @@ from payments.models import PaymentMethod
 from payments.serializers import PaymentMethodSerializer
 
 LIST_PAYMENTS_URL = reverse('payments:list')
-ADD_PAYMENT_USER_URL = reverse('payments:add')
+CREATE_PAYMENT_USER_URL = reverse('payments:create')
 
 
 def create_payment_method(**params):
@@ -63,8 +63,19 @@ class PaymentMethodsTestWithUser(TestCase):
         serializer = PaymentMethodSerializer(payments, many=True)
         self.assertEqual(res.status_code, status.HTTP_200_OK)
 
-    def test_add_payment_to_client(self):
-        """Test add payment method to client"""
-        create_payment_method(name='Payment 1')
+    def test_create_payment_method_model(self):
+        """Test create a payment method in the system successful"""
+        created_payment_method = create_payment_method(name='Payment 1')
+        payment_method = PaymentMethod.objects.create(**created_payment_method)
+
+        self.assertEqual(str(payment_method), payment_method.name)
+
+    def test_create_payment_method_endpoint(self):
+        """Test create payment method from endpoint"""
+        created_payment_method = create_payment_method(name='Payment 1')
+        res = self.client.get(CREATE_PAYMENT_USER_URL)
+
+        serializer = PaymentMethodSerializer(created_payment_method)
+        self.assertEqual(res.status_code, status.HTTP_201_OK)
 
 

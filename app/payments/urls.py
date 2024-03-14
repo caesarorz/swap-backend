@@ -10,4 +10,5 @@ app_name = 'payments'
 
 urlpatterns = [
     path('', PaymentMethodList.as_view(), name='list'),
+    path('create/', PaymentMethodList.as_view(), name='create'),
 ]

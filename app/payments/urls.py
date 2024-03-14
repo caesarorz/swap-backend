@@ -2,13 +2,17 @@
 Users urls
 """
 
-from django.urls import path
+from django.urls import path, include
+from rest_framework.routers import DefaultRouter
+from .views import PaymentMethodsViewSet
 
-from .views import PaymentMethodList
+router = DefaultRouter()
+router.register('payment-method', PaymentMethodsViewSet)
+
 
 app_name = 'payments'
 
 urlpatterns = [
-    path('', PaymentMethodList.as_view(), name='list'),
-    path('create/', PaymentMethodList.as_view(), name='create'),
+    path('', include(router.urls)),
+    # path('create/', PaymentMethodsViewSet.as_view(), name='create'),
 ]

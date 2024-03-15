@@ -77,11 +77,14 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
     @classmethod
     def get_token(cls, user):
 
-        token = super().get_token(user)
-        token['is_staff'] = user.is_staff
+        if user.is_active:
+            token = super().get_token(user)
+            token['is_staff'] = user.is_staff
 
-        if(user.is_staff):
+            if user.is_staff:
+                return token
+
+            token['has_payments'] = True if len(PaymentMethodUser.objects.filter(user__pk=user.id)) > 0 else False
             return token
 
-        token['has_payments'] = True if len(PaymentMethodUser.objects.filter(user__pk=user.id)) > 0 else False
-        return token
+        raise serializers.ValidationError({'active': 'User must confirm email to be actived.'})

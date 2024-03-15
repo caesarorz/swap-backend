@@ -26,7 +26,7 @@ class UserAdmin(BaseUserAdmin):
             }
         ),
         (_('Important dates'), {'fields': ('last_login',)}),
-        (_('Payment Methods'), {'fields': ('payment_method',)}),
+        # (_('User Payment Methods ID'), {'fields': ('payment_method',)}),
     )
     readonly_fields = ['last_login']
     add_fieldsets = (

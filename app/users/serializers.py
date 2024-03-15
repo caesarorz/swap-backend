@@ -70,6 +70,7 @@ class ClientSerializer(serializers.ModelSerializer):
         return user
 
 
+from payments.models import PaymentMethodUser
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
     """Customizes JWT default Serializer to add more information about user"""
     @classmethod
@@ -77,6 +78,9 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
 
         token = super().get_token(user)
         token['is_staff'] = user.is_staff
-        # token['payments'] = True if len([p.name for p in  user.payment_method.all()]) > 0 else False
 
+        if(user.is_staff):
+            return token
+
+        token['has_payments'] = True if len(PaymentMethodUser.objects.filter(user__pk=user.id)) > 0 else False
         return token

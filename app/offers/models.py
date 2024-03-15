@@ -7,9 +7,7 @@ from django.contrib.auth import get_user_model
 from payments.models import PaymentMethodUser
 
 
-
-
-OFFER_TYPES = [('buy', 1), ('sell', 2)]
+OFFER_TYPES = [('buy', 'buy'), ('sell', 'sell')]
 
 class Offer(models.Model):
     """Model that describes the offer (buy or sell)"""
@@ -26,4 +24,3 @@ class Offer(models.Model):
 
     def __str__(self):
         return f'user_payment {self.user_payment_method_id} - type: {self.offer_type}'
-

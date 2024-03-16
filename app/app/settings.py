@@ -45,6 +45,8 @@ INSTALLED_APPS = [
     'utils',
     'users',
     'payments',
+    'offers',
+    'transactions',
 ]
 
 # Django project settings.py

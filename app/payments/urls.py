@@ -1,10 +1,10 @@
-"""
-Users urls
-"""
+"""Payment methods urls"""
+
 
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from .views import PaymentMethodsViewSet, UserPaymentMethodsViewSet
+
 
 router = DefaultRouter()
 router.register('payment-method', PaymentMethodsViewSet)

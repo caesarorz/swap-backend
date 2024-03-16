@@ -13,23 +13,22 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name='Offer',
+            name='Transaction',
             fields=[
-                ('id', models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True, serialize=False)),
-                ('amount', models.PositiveSmallIntegerField()),
+                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('transaction_id', models.UUIDField(default=uuid.uuid4, editable=False, unique=True)),
                 ('created_at', models.DateTimeField(auto_now_add=True)),
-                ('offer_type', models.CharField(choices=[('buy', 'buy'), ('sell', 'sell')], default=('buy', 'buy'), max_length=100)),
                 ('is_active', models.BooleanField(default=True)),
             ],
         ),
         migrations.CreateModel(
-            name='OfferStatus',
+            name='TransactionStatus',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(blank=True, max_length=100)),
+                ('name', models.CharField(max_length=100)),
                 ('description', models.TextField()),
-                ('created_at', models.DateTimeField(auto_now_add=True)),
                 ('is_active', models.BooleanField(default=True)),
+                ('created_at', models.DateTimeField(auto_now_add=True)),
             ],
         ),
     ]

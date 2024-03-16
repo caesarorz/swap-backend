@@ -1,3 +1,7 @@
 from django.contrib import admin
 
-# Register your models here.
+from .models import TransactionStatus, Transaction
+
+
+admin.site.register(TransactionStatus)
+admin.site.register(Transaction)

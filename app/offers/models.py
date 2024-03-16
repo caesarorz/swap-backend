@@ -7,6 +7,18 @@ from django.contrib.auth import get_user_model
 from payments.models import PaymentMethodUser
 
 
+
+class OfferStatus(models.Model):
+    """Model Offer statuses to enable user to create and add status to the offer"""
+    name = models.CharField(max_length=100, blank=True)
+    description = models.TextField()
+    created_at = models.DateTimeField(auto_now=False, auto_now_add=True)
+    is_active = models.BooleanField(default=True)
+
+    def __str__(self):
+        return self.name
+
+
 OFFER_TYPES = [('buy', 'buy'), ('sell', 'sell')]
 
 class Offer(models.Model):

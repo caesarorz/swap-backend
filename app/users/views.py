@@ -4,7 +4,7 @@ Views for user API
 from django.http import Http404
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework import generics, authentication, permissions
+from rest_framework import generics, authentication, permissions, mixins
 from rest_framework.response import Response
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
@@ -57,6 +57,11 @@ class UserDetail(APIView):
         snippet = self.get_object(pk)
         serializer = UserSerializer(snippet)
         return Response(serializer.data)
+
+class UserUpdateView(APIView):
+    ...
+
+
 
 
 class CreateClientView(generics.CreateAPIView):

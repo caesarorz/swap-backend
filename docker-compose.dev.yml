@@ -3,6 +3,7 @@ version: "3.9"
 services:
 
   app:
+    container_name: app_trade
     build:
       context: .
       args:
@@ -38,19 +39,22 @@ services:
       - POSTGRES_USER=devuser
       - POSTGRES_PASSWORD=changeme
 
-  proxy:
-    container_name: man_proxy
-    build:
-      context: ./proxy
-    restart: always
-    depends_on:
-      - app
-    ports:
-      - 8004:8000
-    volumes:
-      - dev-static-data:/vol/static
-    networks:
-      - api-network
+  pgAdmin:
+      image: dpage/pgadmin4
+      container_name: pgadmin
+      restart: always
+      depends_on:
+        - db
+      ports:
+        - 8080:80
+      environment:
+        - PGADMIN_DEFAULT_EMAIL=devuser@email.com
+        - PGADMIN_DEFAULT_PASSWORD=changeme
+      volumes:
+        - ./pgadmin:/var/lib/pgadmin
+        - ./pgadmin:/certs/server.cert
+        - ./pgadmin:/certs/server.key
+        - ./pgadmin:/pgadmin4/servers.json
 
 
 volumes:

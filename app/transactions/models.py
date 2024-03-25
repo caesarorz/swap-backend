@@ -3,8 +3,8 @@ from django.db import models
 # Create your models here.
 import uuid
 from django.conf import settings
-from django.contrib.auth import get_user_model
 from offers.models import Offer
+from payments.models import PaymentMethodUser
 
 
 class TransactionStatus(models.Model):
@@ -24,16 +24,16 @@ class TransactionStatus(models.Model):
 
 class Transaction(models.Model):
     """Model that describes the transaction (buy or sell)"""
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    transaction_id = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
     created_by = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
     )
-    user_payment_method_id = models.ForeignKey(Offer, on_delete=models.CASCADE)
-    amount = models.PositiveSmallIntegerField(blank=False)
     status = models.ForeignKey(
         TransactionStatus,
         on_delete=models.CASCADE,
+        blank=True,
+        null=True
     )
     source_offer_id = models.OneToOneField(
         Offer,
@@ -53,4 +53,4 @@ class Transaction(models.Model):
     is_active = models.BooleanField(default=True)
 
     def __str__(self):
-        return f'user_payment: {self.user_payment_method_id} - type: {self.offer_type}'
+        return f'{self.transaction_id}'

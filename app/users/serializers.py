@@ -24,12 +24,17 @@ class UserSerializer(serializers.ModelSerializer):
             "is_superuser",
             "is_active",
             "is_staff",
+            "rating",
+            "status",
         ]
         extra_kwargs = {'password': {'write_only': True, 'min_length': 8}}
 
     def create(self, validated_data):
         """Create and return a user with encrypted password."""
-        return get_user_model().objects.create_user(**validated_data)
+        print(validated_data)
+        user = get_user_model().objects.create_user(**validated_data)
+        print(user)
+        return user
 
     def update(self, instance, validated_data):
         """Update and return user."""

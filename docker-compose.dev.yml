@@ -3,6 +3,7 @@ version: "3.9"
 services:
 
   app:
+    container_name: app_trade
     build:
       context: .
       args:
@@ -54,6 +55,7 @@ services:
         - ./pgadmin:/certs/server.cert
         - ./pgadmin:/certs/server.key
         - ./pgadmin:/pgadmin4/servers.json
+
 
 volumes:
   dev-db-data:

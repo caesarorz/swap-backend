@@ -23,7 +23,7 @@ class PaymentMethodsViewSet(ModelViewSet):
 
     def get_queryset(self):
         """Retrive payment methods for authenticated users"""
-        return self.queryset.filter(created_by=self.request.user).order_by('-id')
+        return self.queryset.all().order_by('-id')
 
     def get_serializer_class(self):
         """"""

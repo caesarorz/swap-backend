@@ -1,0 +1,62 @@
+[
+  {
+    "model": "payments.payment_method",
+    "pk": 1,
+    "fields": {
+      "name": "Apple Pay",
+      "is_active": true,
+      "description": "Apple Pay payment method",
+      "created_by": 1
+    }
+  },
+  {
+    "model": "payments.payment_method",
+    "pk": 2,
+    "fields": {
+      "name": "PayPal",
+      "is_active": true,
+      "description": "PayPal payment method",
+      "created_by": 1
+    }
+  },
+  {
+    "model": "payments.payment_method",
+    "pk": 3,
+    "fields": {
+      "name": "Zelle",
+      "is_active": true,
+      "description": "Zelle payment method",
+      "created_by": 1
+    }
+  },
+  {
+    "model": "payments.payment_method",
+    "pk": 4,
+    "fields": {
+      "name": "Venmo",
+      "is_active": true,
+      "description": "Venmo payment method",
+      "created_by": 1
+    }
+  },
+  {
+    "model": "payments.payment_method",
+    "pk": 5,
+    "fields": {
+      "name": "Square",
+      "is_active": true,
+      "description": "Square payment method",
+      "created_by": 1
+    }
+  },
+  {
+    "model": "payments.payment_method",
+    "pk": 6,
+    "fields": {
+      "name": "Chime",
+      "is_active": true,
+      "description": "Chime payment method",
+      "created_by": 1
+    }
+  }
+]

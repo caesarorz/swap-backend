@@ -128,7 +128,20 @@ TEMPLATES = [
     },
 ]
 
+
+REST_FRAMEWORK = {
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.AllowAny',
+    ),
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
+}
+
+
 WSGI_APPLICATION = 'app.wsgi.application'
+
 
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
@@ -192,15 +205,29 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = 'users.User'
 
 
-REST_FRAMEWORK = {
-    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
-    'DEFAULT_PERMISSION_CLASSES': (
-        'rest_framework.permissions.AllowAny',
-    ),
-    'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework_simplejwt.authentication.JWTAuthentication',
-    ),
-}
+CORS_ALLOWED_ORIGINS = [
+    'http://localhost:5173',  # for localhost (REACT Default)
+    'http://172.25.96.1:5173',  # for localhost (Developlemt)
+    'http://192.168.128.1:5173',
+    'http://192.168.56.1:5173'
+]
+
+CORS_ALLOWED_ORIGINS.extend(
+    filter(
+        None,
+        os.environ.get('CORS_ALLOWED_ORIGINS', '').split(','),
+    )
+)
+
+CORS_ALLOW_CREDENTIALS = True
+
+### AWS S3
+
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+AWS_QUERYSTRING_AUTH = False
+AWS_ACCESS_KEY_ID = os.environ.get('AWS_KEY_ID', '')
+AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_KEY', '')
+AWS_STORAGE_BUCKET_NAME = os.environ.get('AWS_BUCKET_NAME', '')
 
 
 SPECTACULAR_SETTINGS = {
@@ -210,19 +237,3 @@ SPECTACULAR_SETTINGS = {
     'SERVE_INCLUDE_SCHEMA': False,
     'COMPONENT_SPLIT_REQUEST': True,
 }
-
-CORS_ALLOW_CREDENTIALS = True
-
-CORS_ORIGIN_WHITELIST = (
-    'http://localhost:5173',  # for localhost (REACT Default)
-    'http://172.25.96.1:5173',  # for localhost (Developlemt)
-    'http://192.168.128.1:5173',
-    'http://192.168.56.1:5173'
-)
-
-CSRF_TRUSTED_ORIGINS = [
-    'http://localhost:5173',  # for localhost (REACT Default)
-    'http://172.25.96.1:5173',  # for localhost (Developlemt)
-    'http://192.168.128.1:5173',
-    'http://192.168.56.1:5173'
-]
